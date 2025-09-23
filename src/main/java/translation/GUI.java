@@ -2,8 +2,8 @@ package translation;
 
 import javax.swing.*;
 import java.awt.event.*;
-import translation.CanadaTranslator;
-import translation.Translator;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 // TODO Task D: Update the GUI for the program to align with UI shown in the README example.
 //            Currently, the program only uses the CanadaTranslator and the user has
@@ -31,6 +31,7 @@ public class GUI {
                 languageComboBox.addItem(languagename);
             }
             languagePanel.add(languageComboBox);
+            // add listener for when an item is selected.
 
             JPanel buttonPanel = new JPanel();
             JButton submit = new JButton("Submit");
