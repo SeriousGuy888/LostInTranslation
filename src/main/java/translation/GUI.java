@@ -16,15 +16,24 @@ public class GUI {
 
     public static void main(String[] args) {
         JSONTranslator translator = new JSONTranslator();
-        CountryCodeConverter converter = new CountryCodeConverter();
+        CountryCodeConverter countryConverter = new CountryCodeConverter();
+        LanguageCodeConverter languageConverter = new LanguageCodeConverter();
+
+        final String[] selected = new String[2]; // stores selected country code and language code
 
         SwingUtilities.invokeLater(() -> {
 
             // initialize language Panel (which contains the Combo Box)
             JPanel languagePanel = new JPanel();
-            JTextField languageField = new JTextField(10);
             languagePanel.add(new JLabel("Language:"));
-            languagePanel.add(languageField);
+
+            // create Combo Box, add country codes into it, and add it to our panel
+            JComboBox<String> languageComboBox = new JComboBox<>();
+            for(String countryCode : translator.getLanguageCodes()) {
+                String languageName = languageConverter.fromLanguageCode(countryCode);
+                languageComboBox.addItem(languageName);
+            }
+            languagePanel.add(languageComboBox);
 
             // initialize translation Panel (which contains the translation label)
             JPanel translationPanel = new JPanel();
@@ -37,7 +46,7 @@ public class GUI {
             String[] countryList = new String[translator.getCountryCodes().size()];
             int i = 0;
             for(String countryCode : translator.getCountryCodes()) {
-                countryList[i++] = converter.fromCountryCode(countryCode);
+                countryList[i++] = countryConverter.fromCountryCode(countryCode);
             }
 
             // create the JList with the array of country names
@@ -58,10 +67,36 @@ public class GUI {
                 public void valueChanged(ListSelectionEvent e) {
 
                     String selectedCountry = list.getSelectedValue();
-                    String selectedCode = converter.fromCountry(selectedCountry);
+                    selected[0] = countryConverter.fromCountry(selectedCountry);
                 }
             });
 
+            // add listener for when an item is selected.
+            languageComboBox.addItemListener(new ItemListener() {
+
+                /**
+                 * Invoked when an item has been selected or deselected by the user.
+                 * The code written for this method performs the operations
+                 * that need to occur when an item is selected (or deselected).
+                 *
+                 * @param e the event to be processed
+                 */
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        String language = languageComboBox.getSelectedItem().toString();
+                        selected[1] = languageConverter.fromLanguage(language);
+//                        String result = translator.translate(country, languageCode);
+//                        if (result == null) {
+//                            result = "no translation found!";
+//                        }
+//                        resultLabel.setText(result);
+                    }
+                }
+            });
+
+            // add all panels to the main panel
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
             mainPanel.add(languagePanel);
@@ -73,8 +108,6 @@ public class GUI {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
-
-
         });
     }
 }
