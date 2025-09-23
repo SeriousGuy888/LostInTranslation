@@ -44,8 +44,6 @@ public class GUI {
             countryPanel.add(new JLabel("Country:"));
             countryPanel.add(countryField);
 
-
-
             JLabel resultLabelText = new JLabel("Translation:");
             buttonPanel.add(resultLabelText);
             JLabel resultLabel = new JLabel("\t\t\t\t\t\t\t");
