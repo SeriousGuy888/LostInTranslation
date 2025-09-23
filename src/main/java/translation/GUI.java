@@ -32,10 +32,30 @@ public class GUI {
             }
             languagePanel.add(languageComboBox);
             // add listener for when an item is selected.
+            languageComboBox.addItemListener(new ItemListener() {
 
-//            JPanel buttonPanel = new JPanel();
-//            JButton submit = new JButton("Submit");
-//            buttonPanel.add(submit);
+                /**
+                 * Invoked when an item has been selected or deselected by the user.
+                 * The code written for this method performs the operations
+                 * that need to occur when an item is selected (or deselected).
+                 *
+                 * @param e the event to be processed
+                 */
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        String country = languageComboBox.getSelectedItem().toString();
+                        JOptionPane.showMessageDialog(null, "user selected " + country + "!");
+                    }
+                }
+
+
+            });
+
+            JPanel buttonPanel = new JPanel();
+            JButton submit = new JButton("Submit");
+            buttonPanel.add(submit);
 
             JPanel countryPanel = new JPanel();
             JTextField countryField = new JTextField(10);
@@ -61,7 +81,7 @@ public class GUI {
 
                     // for now, just using our simple translator, but
                     // we'll need to use the real JSON version later.
-                    Translator translator = new CanadaTranslator();
+                    Translator translator = new JSONTranslator();
 
                     String result = translator.translate(country, language);
                     if (result == null) {
