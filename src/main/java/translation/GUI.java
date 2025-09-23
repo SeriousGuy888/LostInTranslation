@@ -81,8 +81,20 @@ public class GUI {
                 public void itemStateChanged(ItemEvent e) {
 
                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                        String country = languageComboBox.getSelectedItem().toString();
-                        JOptionPane.showMessageDialog(null, "user selected " + country + "!");
+                        LanguageCodeConverter langconverter = new LanguageCodeConverter();
+                        String language = languageComboBox.getSelectedItem().toString();
+                        String languagecode = langconverter.fromLanguage(language);
+
+                        String country = countryField.getText();
+
+                        // JOptionPane.showMessageDialog(null, "user selected " + country + "!");
+                        Translator translator = new JSONTranslator();
+
+                        String result = translator.translate(country, languagecode);
+                        if (result == null) {
+                            result = "no translation found!";
+                        }
+                        resultLabel.setText(result);
                     }
                 }
 
