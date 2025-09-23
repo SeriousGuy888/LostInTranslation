@@ -14,6 +14,24 @@ public class GUI {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            JPanel languagePanel = new JPanel();
+            JTextField languageField = new JTextField(10);
+            languagePanel.add(new JLabel("Language:"));
+            //languagePanel.add(languageField);
+            JPanel buttonPanel = new JPanel();
+            JButton submit = new JButton("Submit");
+            buttonPanel.add(submit);
+
+            // Combo box
+            Translator translator = new JSONTranslator();
+
+            // create combobox, add country codes into it, and add it to our panel
+            JComboBox<String> languageComboBox = new JComboBox<>();
+            for(String countryCode : translator.getLanguageCodes()) {
+                languageComboBox.addItem(countryCode);
+            }
+            languagePanel.add(languageComboBox);
+
             JPanel countryPanel = new JPanel();
             JTextField countryField = new JTextField(10);
             countryField.setText("can");
@@ -21,13 +39,7 @@ public class GUI {
             countryPanel.add(new JLabel("Country:"));
             countryPanel.add(countryField);
 
-            JPanel languagePanel = new JPanel();
-            JTextField languageField = new JTextField(10);
-            languagePanel.add(new JLabel("Language:"));
-            languagePanel.add(languageField);
-            JPanel buttonPanel = new JPanel();
-            JButton submit = new JButton("Submit");
-            buttonPanel.add(submit);
+
 
             JLabel resultLabelText = new JLabel("Translation:");
             buttonPanel.add(resultLabelText);
@@ -57,8 +69,9 @@ public class GUI {
 
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            mainPanel.add(countryPanel);
             mainPanel.add(languagePanel);
+            mainPanel.add(countryPanel);
+
             mainPanel.add(buttonPanel);
 
             JFrame frame = new JFrame("Country Name Translator");
