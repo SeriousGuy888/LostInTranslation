@@ -24,11 +24,13 @@ public class GUI {
 
             // Combo box
             Translator translator = new JSONTranslator();
+            LanguageCodeConverter langconverter = new LanguageCodeConverter();
 
             // create combobox, add country codes into it, and add it to our panel
             JComboBox<String> languageComboBox = new JComboBox<>();
             for(String countryCode : translator.getLanguageCodes()) {
-                languageComboBox.addItem(countryCode);
+                String languagename = langconverter.fromLanguageCode(countryCode);
+                languageComboBox.addItem(languagename);
             }
             languagePanel.add(languageComboBox);
 
