@@ -2,7 +2,8 @@ package translation;
 
 import javax.swing.*;
 import java.awt.event.*;
-
+import translation.CanadaTranslator;
+import translation.Translator;
 
 // TODO Task D: Update the GUI for the program to align with UI shown in the README example.
 //            Currently, the program only uses the CanadaTranslator and the user has
@@ -24,7 +25,6 @@ public class GUI {
             JTextField languageField = new JTextField(10);
             languagePanel.add(new JLabel("Language:"));
             languagePanel.add(languageField);
-
             JPanel buttonPanel = new JPanel();
             JButton submit = new JButton("Submit");
             buttonPanel.add(submit);
@@ -33,7 +33,6 @@ public class GUI {
             buttonPanel.add(resultLabelText);
             JLabel resultLabel = new JLabel("\t\t\t\t\t\t\t");
             buttonPanel.add(resultLabel);
-
 
             // adding listener for when the user clicks the submit button
             submit.addActionListener(new ActionListener() {
