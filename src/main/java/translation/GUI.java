@@ -14,17 +14,15 @@ public class GUI {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            JPanel languagePanel = new JPanel();
-            JTextField languageField = new JTextField(10);
-            languagePanel.add(new JLabel("Language:"));
-            //languagePanel.add(languageField);
-            JPanel buttonPanel = new JPanel();
-            JButton submit = new JButton("Submit");
-            buttonPanel.add(submit);
-
-            // Combo box
+            // instantiate helper classes
             Translator translator = new JSONTranslator();
             LanguageCodeConverter langconverter = new LanguageCodeConverter();
+
+            JPanel languagePanel = new JPanel();
+            // MAYBE DEL
+            JTextField languageField = new JTextField(10);
+            languagePanel.add(new JLabel("Language:"));
+            // DEL languagePanel.add(languageField)
 
             // create combobox, add country codes into it, and add it to our panel
             JComboBox<String> languageComboBox = new JComboBox<>();
@@ -33,6 +31,10 @@ public class GUI {
                 languageComboBox.addItem(languagename);
             }
             languagePanel.add(languageComboBox);
+
+            JPanel buttonPanel = new JPanel();
+            JButton submit = new JButton("Submit");
+            buttonPanel.add(submit);
 
             JPanel countryPanel = new JPanel();
             JTextField countryField = new JTextField(10);
