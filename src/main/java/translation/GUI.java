@@ -22,7 +22,6 @@ public class GUI {
             // MAYBE DEL
             JTextField languageField = new JTextField(10);
             languagePanel.add(new JLabel("Language:"));
-            // DEL languagePanel.add(languageField)
 
             // create combobox, add country codes into it, and add it to our panel
             JComboBox<String> languageComboBox = new JComboBox<>();
@@ -31,25 +30,6 @@ public class GUI {
                 languageComboBox.addItem(languagename);
             }
             languagePanel.add(languageComboBox);
-            // add listener for when an item is selected.
-            languageComboBox.addItemListener(new ItemListener() {
-
-                /**
-                 * Invoked when an item has been selected or deselected by the user.
-                 * The code written for this method performs the operations
-                 * that need to occur when an item is selected (or deselected).
-                 *
-                 * @param e the event to be processed
-                 */
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        String country = languageComboBox.getSelectedItem().toString();
-                        JOptionPane.showMessageDialog(null, "user selected " + country + "!");
-                    }
-                }
-            });
 
             JPanel buttonPanel = new JPanel();
             JButton submit = new JButton("Submit");
