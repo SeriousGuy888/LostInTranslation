@@ -19,7 +19,7 @@ public class GUI {
             LanguageCodeConverter langconverter = new LanguageCodeConverter();
 
             JPanel languagePanel = new JPanel();
-            // MAYBE DEL
+            // TODO: languageField not used in itemStateChanged action listener
             JTextField languageField = new JTextField(10);
             languagePanel.add(new JLabel("Language:"));
 
@@ -31,6 +31,7 @@ public class GUI {
             }
             languagePanel.add(languageComboBox);
 
+            // TODO: Delete
             JPanel buttonPanel = new JPanel();
             JButton submit = new JButton("Submit");
             buttonPanel.add(submit);
