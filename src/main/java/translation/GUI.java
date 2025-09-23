@@ -49,8 +49,6 @@ public class GUI {
                         JOptionPane.showMessageDialog(null, "user selected " + country + "!");
                     }
                 }
-
-
             });
 
             JPanel buttonPanel = new JPanel();
