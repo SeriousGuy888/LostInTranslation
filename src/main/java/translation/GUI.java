@@ -33,9 +33,9 @@ public class GUI {
             languagePanel.add(languageComboBox);
             // add listener for when an item is selected.
 
-            JPanel buttonPanel = new JPanel();
-            JButton submit = new JButton("Submit");
-            buttonPanel.add(submit);
+//            JPanel buttonPanel = new JPanel();
+//            JButton submit = new JButton("Submit");
+//            buttonPanel.add(submit);
 
             JPanel countryPanel = new JPanel();
             JTextField countryField = new JTextField(10);
@@ -48,6 +48,9 @@ public class GUI {
             buttonPanel.add(resultLabelText);
             JLabel resultLabel = new JLabel("\t\t\t\t\t\t\t");
             buttonPanel.add(resultLabel);
+
+            // add listener for when an item is selected.
+            languageComboBox.addItemListener(new ItemListener();
 
             // adding listener for when the user clicks the submit button
             submit.addActionListener(new ActionListener() {
