@@ -28,7 +28,7 @@ public class GUI {
 
             // create Combo Box, add country codes into it, and add it to our panel
             JComboBox<String> languageComboBox = new JComboBox<>();
-            for(String countryCode : translator.getLanguageCodes()) {
+            for (String countryCode : translator.getLanguageCodes()) {
                 String languageName = languageConverter.fromLanguageCode(countryCode);
                 languageComboBox.addItem(languageName);
             }
@@ -44,7 +44,7 @@ public class GUI {
             // initialize country name list
             String[] countryList = new String[translator.getCountryCodes().size()];
             int i = 0;
-            for(String countryCode : translator.getCountryCodes()) {
+            for (String countryCode : translator.getCountryCodes()) {
                 countryList[i++] = countryConverter.fromCountryCode(countryCode);
             }
 
@@ -67,6 +67,7 @@ public class GUI {
 
                     String selectedCountry = list.getSelectedValue();
                     selected[0] = countryConverter.fromCountry(selectedCountry);
+                    updateTranslation(translator, resultLabel, selected[0], selected[1]);
                 }
             });
 
@@ -108,5 +109,16 @@ public class GUI {
             frame.pack();
             frame.setVisible(true);
         });
+    }
+
+    private static void updateTranslation(Translator translator,
+                                          JLabel resultLabel,
+                                          String countryCode,
+                                          String languageCode) {
+        String result = translator.translate(countryCode, languageCode);
+        if (result == null) {
+            result = "no translation found!";
+        }
+        resultLabel.setText(result);
     }
 }
