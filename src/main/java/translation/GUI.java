@@ -17,7 +17,9 @@ public class GUI {
         CountryCodeConverter countryConverter = new CountryCodeConverter();
         LanguageCodeConverter languageConverter = new LanguageCodeConverter();
 
-        final String[] selected = new String[2]; // stores selected country code and language code
+        // final one element arrays because inner-class access funniness
+        final String[] selectedCountryCode = {null};
+        final String[] selectedLanguageCode = {null};
 
         SwingUtilities.invokeLater(() -> {
 
@@ -60,9 +62,8 @@ public class GUI {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                        String selectedLanguage = languageComboBox.getSelectedItem().toString();
-                        selected[1] = languageConverter.fromLanguage(selectedLanguage);
-                        updateTranslation(translator, resultLabel, selected[0], selected[1]);
+                        selectedLanguageCode[0] = getSelectedLanguageCode(languageConverter, languageComboBox);
+                        updateTranslation(translator, resultLabel, selectedCountryCode[0], selectedLanguageCode[0]);
                     }
                 }
             });
@@ -83,9 +84,8 @@ public class GUI {
                  */
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
-                    String selectedCountry = list.getSelectedValue();
-                    selected[0] = countryConverter.fromCountry(selectedCountry);
-                    updateTranslation(translator, resultLabel, selected[0], selected[1]);
+                    selectedCountryCode[0] = getSelectedCountryCode(countryConverter, list);
+                    updateTranslation(translator, resultLabel, selectedCountryCode[0], selectedLanguageCode[0]);
                 }
             });
 
@@ -102,6 +102,9 @@ public class GUI {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
+
+            selectedCountryCode[0] = getSelectedCountryCode(countryConverter, list);
+            selectedLanguageCode[0] = getSelectedLanguageCode(languageConverter, languageComboBox);
         });
     }
 
@@ -114,5 +117,16 @@ public class GUI {
             result = "no translation found!";
         }
         resultLabel.setText(result);
+    }
+
+
+    private static String getSelectedCountryCode(CountryCodeConverter countryConverter, JList<String> countryList) {
+        String selectedCountry = countryList.getSelectedValue();
+        return countryConverter.fromCountry(selectedCountry);
+    }
+
+    private static String getSelectedLanguageCode(LanguageCodeConverter languageConverter, JComboBox<String> languageComboBox) {
+        String selectedLanguage = languageComboBox.getSelectedItem().toString();
+        return languageConverter.fromLanguage(selectedLanguage);
     }
 }
