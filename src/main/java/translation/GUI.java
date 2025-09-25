@@ -5,7 +5,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
 
-
 // TODO Task D: Update the GUI for the program to align with UI shown in the README example.
 //            Currently, the program only uses the CanadaTranslator and the user has
 //            to manually enter the language code they want to use for the translation.
@@ -48,6 +47,26 @@ public class GUI {
                 countryList[i++] = countryConverter.fromCountryCode(countryCode);
             }
 
+            // add listener for when an item is selected.
+            languageComboBox.addItemListener(new ItemListener() {
+
+                /**
+                 * Invoked when an item has been selected or deselected by the user.
+                 * The code written for this method performs the operations
+                 * that need to occur when an item is selected (or deselected).
+                 *
+                 * @param e the event to be processed
+                 */
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        String selectedLanguage = languageComboBox.getSelectedItem().toString();
+                        selected[1] = languageConverter.fromLanguage(selectedLanguage);
+                        updateTranslation(translator, resultLabel, selected[0], selected[1]);
+                    }
+                }
+            });
+
             // create the JList with the array of country names
             JList<String> list = new JList<>(countryList);
 
@@ -64,37 +83,12 @@ public class GUI {
                  */
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
-
                     String selectedCountry = list.getSelectedValue();
                     selected[0] = countryConverter.fromCountry(selectedCountry);
                     updateTranslation(translator, resultLabel, selected[0], selected[1]);
                 }
             });
 
-            // add listener for when an item is selected.
-            languageComboBox.addItemListener(new ItemListener() {
-
-                /**
-                 * Invoked when an item has been selected or deselected by the user.
-                 * The code written for this method performs the operations
-                 * that need to occur when an item is selected (or deselected).
-                 *
-                 * @param e the event to be processed
-                 */
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        String language = languageComboBox.getSelectedItem().toString();
-                        selected[1] = languageConverter.fromLanguage(language);
-//                        String result = translator.translate(country, languageCode);
-//                        if (result == null) {
-//                            result = "no translation found!";
-//                        }
-//                        resultLabel.setText(result);
-                    }
-                }
-            });
 
             // add all panels to the main panel
             JPanel mainPanel = new JPanel();
