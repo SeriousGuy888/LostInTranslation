@@ -20,21 +20,14 @@ public class GUI {
         final String[] selected = new String[2]; // stores selected country code and language code
 
         SwingUtilities.invokeLater(() -> {
-            JPanel languagePanel = new JPanel();
-            // TODO: languageField not used in itemStateChanged action listener
-            JTextField languageField = new JTextField(10);
-            languagePanel.add(new JLabel("Language:"));
-
-            // TODO: Delete
-            JPanel buttonPanel = new JPanel();
-            JButton submit = new JButton("Submit");
-            buttonPanel.add(submit);
 
             // initialize language Panel (which contains the Combo Box)
+            JPanel languagePanel = new JPanel();
+            languagePanel.add(new JLabel("Language:"));
 
             // create Combo Box, add country codes into it, and add it to our panel
             JComboBox<String> languageComboBox = new JComboBox<>();
-            for(String countryCode : translator.getLanguageCodes()) {
+            for (String countryCode : translator.getLanguageCodes()) {
                 String languageName = languageConverter.fromLanguageCode(countryCode);
                 languageComboBox.addItem(languageName);
             }
@@ -50,7 +43,7 @@ public class GUI {
             // initialize country name list
             String[] countryList = new String[translator.getCountryCodes().size()];
             int i = 0;
-            for(String countryCode : translator.getCountryCodes()) {
+            for (String countryCode : translator.getCountryCodes()) {
                 countryList[i++] = countryConverter.fromCountryCode(countryCode);
             }
 
@@ -66,26 +59,12 @@ public class GUI {
                  */
                 @Override
                 public void itemStateChanged(ItemEvent e) {
-
                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                        String country = selected[0];
-
-                        String language = languageComboBox.getSelectedItem().toString();
-                        selected[1] = languageConverter.fromLanguage(language);
-
-
-                        // JOptionPane.showMessageDialog(null, "user selected " + country + "!");
-                        Translator translator = new JSONTranslator();
-
-                        String result = translator.translate(country, selected[1]);
-                        if (result == null) {
-                            result = "no translation found!";
-                        }
-                        resultLabel.setText(result);
+                        String selectedLanguage = languageComboBox.getSelectedItem().toString();
+                        selected[1] = languageConverter.fromLanguage(selectedLanguage);
+                        updateTranslation(translator, resultLabel, selected[0], selected[1]);
                     }
                 }
-
-
             });
 
             // create the JList with the array of country names
@@ -104,15 +83,9 @@ public class GUI {
                  */
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
-                    String language = selected[1];
                     String selectedCountry = list.getSelectedValue();
                     selected[0] = countryConverter.fromCountry(selectedCountry);
-
-                    String result = translator.translate(selected[0] , language);
-                    if (result == null) {
-                        result = "no translation found!";
-                    }
-                    resultLabel.setText(result);
+                    updateTranslation(translator, resultLabel, selected[0], selected[1]);
                 }
             });
 
@@ -130,5 +103,16 @@ public class GUI {
             frame.pack();
             frame.setVisible(true);
         });
+    }
+
+    private static void updateTranslation(Translator translator,
+                                          JLabel resultLabel,
+                                          String countryCode,
+                                          String languageCode) {
+        String result = translator.translate(countryCode, languageCode);
+        if (result == null) {
+            result = "no translation found!";
+        }
+        resultLabel.setText(result);
     }
 }
